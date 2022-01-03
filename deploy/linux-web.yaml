@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sample-sandbox
+  name: linux-web
+  labels:
+    app: linux-web
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 8000
+      targetPort: 80
+  selector:
+    app: linux-web
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sample-sandbox
+  labels:
+    app: linux-web
+  name: linux-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: linux-web
+  template:
+    metadata:
+      namespace: sample-sandbox
+      labels:
+        app: linux-web
+      name: linux-web
+    spec:
+      containers:
+        - name: linux-web
+          image: ghodrat/aspnet-web-sample:alpine
+      nodeSelector:
+        kubernetes.io/os: linux

@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: linux-web
+  labels:
+    app: linux-web
+  namespace: sample-sandbox
+  annotations:
+    cert-manager.io/issuer: sample-sandbox-self-signed-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - www.linux-web.com
+    secretName: linux-web-tls
+  rules:
+    - host: www.linux-web.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: linux-web
+                port:
+                  number: 80
+            path: /
+            pathType: Exact

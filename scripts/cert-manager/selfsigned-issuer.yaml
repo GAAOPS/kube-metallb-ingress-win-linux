@@ -1,0 +1,8 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: sample-sandbox-self-signed-issuer
+  namespace: sample-sandbox
+spec:
+  ca:
+    secretName: sample-sandbox-ca-tls
